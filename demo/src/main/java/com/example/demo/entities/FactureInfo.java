@@ -9,7 +9,7 @@ public class FactureInfo {
     private Long numeroContart;
     private Transaction transaction;
 
-    @OneToOne(mappedBy = "factureInfo")
+    @OneToOne
     public Transaction getTransaction() {
         return transaction;
     }

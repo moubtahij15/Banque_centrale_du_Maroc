@@ -7,14 +7,13 @@ public class Transaction {
     private long id;
     private Long idCompte;
     private Long dateTransaction;
-    private String etat;
     private Double mentant;
     private String type;
     private Compte compteByIdCompte;
     private FactureInfo factureInfo;
-    private Destinataire destinataires;
+    private Virement virements;
 
-    @OneToOne
+    @OneToOne(mappedBy = "transaction")
     public FactureInfo getFactureInfo() {
         return factureInfo;
     }
@@ -23,13 +22,13 @@ public class Transaction {
         this.factureInfo = factureInfo;
     }
 
-    @OneToOne
-    public Destinataire getDestinataires() {
-        return destinataires;
+    @OneToOne(mappedBy = "transactions")
+    public Virement getVirements() {
+        return virements;
     }
 
-    public void setDestinataires(Destinataire destinataires) {
-        this.destinataires = destinataires;
+    public void setVirements(Virement virements) {
+        this.virements = virements;
     }
 
 
@@ -64,15 +63,7 @@ public class Transaction {
         this.dateTransaction = dateTransaction;
     }
 
-    @Basic
-    @Column(name = "etat", nullable = true, length = 255)
-    public String getEtat() {
-        return etat;
-    }
 
-    public void setEtat(String etat) {
-        this.etat = etat;
-    }
 
     @Basic
     @Column(name = "mentant", nullable = true, precision = 0)
@@ -95,7 +86,7 @@ public class Transaction {
     }
 
     @ManyToOne
-    @JoinColumn(name = "id_compte", referencedColumnName = "id",insertable = false,updatable = false)
+    @JoinColumn(name = "id_compte", referencedColumnName = "id", insertable = false, updatable = false)
     public Compte getCompteByIdCompte() {
         return compteByIdCompte;
     }

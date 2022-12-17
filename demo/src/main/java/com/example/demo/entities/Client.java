@@ -13,10 +13,13 @@ public class Client {
     private String password;
     private String cin;
     private String adresse;
+
+    private String urlCin;
+    private String etat;
     private String tel;
     private String nom;
     private String prenom;
-    private Collection<Compte> comptesById=new ArrayList<>();
+    private Collection<Compte> comptesById = new ArrayList<>();
     private Collection<Role> roles = new ArrayList<>();
 
     public Client() {
@@ -63,6 +66,26 @@ public class Client {
     @Column(name = "email", nullable = true, length = 255)
     public String getEmail() {
         return email;
+    }
+
+    @Basic
+    @Column(name = "etat", nullable = true, length = 255)
+    public String getEtat() {
+        return etat;
+    }
+
+    @Basic
+    @Column(name = "urlCin", nullable = true, length = 255)
+    public String getUrlCin() {
+        return urlCin;
+    }
+
+    public void setUrlCin(String urlCin) {
+        this.urlCin = urlCin;
+    }
+
+    public void setEtat(String etat) {
+        this.etat = etat;
     }
 
     public void setEmail(String email) {

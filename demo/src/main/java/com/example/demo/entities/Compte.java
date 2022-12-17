@@ -9,7 +9,6 @@ public class Compte {
     private String rib;
     private Long idClient;
     private String type;
-    private String etat;
     private long sold;
     private Client clientByIdClient;
     private Collection<Transaction> transactionsById;
@@ -55,15 +54,6 @@ public class Compte {
         this.type = type;
     }
 
-    @Basic
-    @Column(name = "etat", nullable = true, length = 255)
-    public String getEtat() {
-        return etat;
-    }
-
-    public void setEtat(String etat) {
-        this.etat = etat;
-    }
 
     @Basic
     @Column(name = "sold", nullable = false)
@@ -76,7 +66,7 @@ public class Compte {
     }
 
     @ManyToOne
-    @JoinColumn(name = "id_client", referencedColumnName = "id",insertable = false,updatable = false)
+    @JoinColumn(name = "id_client", referencedColumnName = "id", insertable = false, updatable = false)
     public Client getClientByIdClient() {
         return clientByIdClient;
     }

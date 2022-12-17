@@ -68,7 +68,6 @@ public class JwtAuthentificationFilter extends UsernamePasswordAuthenticationFil
         response.setContentType("application/json");
         new ObjectMapper().writeValue(response.getOutputStream(), idToken);
 
-
 //        response.setHeader("Authorization", jwtAccessToken);
 
 
