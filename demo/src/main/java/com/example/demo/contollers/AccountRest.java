@@ -45,7 +45,7 @@ public class AccountRest {
     @PostAuthorize("hasAuthority('ADMIN')")
     @PostMapping(path = "/clients")
     public UserApp saveClient(@RequestBody UserApp userApp) {
-        return accountImplClient.addNewClient(userApp);
+        return accountImplClient.addNewUser(userApp);
     }
 
     @GetMapping(path = "/roles")

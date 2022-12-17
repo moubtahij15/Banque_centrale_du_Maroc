@@ -32,9 +32,9 @@ public class BanqueCentraleApplication {
             accountImplClient.addRole(new Role(null, "ADMIN"));
             accountImplClient.addRole(new Role(null, "USER"));
 
-            accountImplClient.addNewClient(new UserApp("otman@gmail.com", "123456", "WA123", "CASA", "12345", "hamza", "mb"));
-            accountImplClient.addNewClient(new UserApp("otman1@gmail.com", "123456", "WA1223", "CASA", "12345", "hamza", "mb"));
-            accountImplClient.addNewClient(new UserApp("otman2@gmail.com", "123456", "WA1223", "CASA", "12345", "hamza", "mb"));
+            accountImplClient.addNewUser(new UserApp("otman@gmail.com", "123456", "WA123", "CASA", "12345", "hamza", "mb"));
+            accountImplClient.addNewUser(new UserApp("otman1@gmail.com", "123456", "WA1223", "CASA", "12345", "hamza", "mb"));
+            accountImplClient.addNewUser(new UserApp("otman2@gmail.com", "123456", "WA1223", "CASA", "12345", "hamza", "mb"));
 
             accountImplClient.addRoleToUser("otman@gmail.com", "CLIENT");
             accountImplClient.addRoleToUser("otman1@gmail.com", "ADMIN");
