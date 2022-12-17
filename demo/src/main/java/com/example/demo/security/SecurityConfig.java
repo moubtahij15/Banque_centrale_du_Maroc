@@ -1,7 +1,6 @@
 package com.example.demo.security;
 
 
-import com.example.demo.entities.Client;
 import com.example.demo.services.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

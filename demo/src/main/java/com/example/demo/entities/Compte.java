@@ -10,7 +10,7 @@ public class Compte {
     private Long idClient;
     private String type;
     private long sold;
-    private Client clientByIdClient;
+    private UserApp clientByIdClient;
     private Collection<Transaction> transactionsById;
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -67,11 +67,11 @@ public class Compte {
 
     @ManyToOne
     @JoinColumn(name = "id_client", referencedColumnName = "id", insertable = false, updatable = false)
-    public Client getClientByIdClient() {
+    public UserApp getClientByIdClient() {
         return clientByIdClient;
     }
 
-    public void setClientByIdClient(Client clientByIdClient) {
+    public void setClientByIdClient(UserApp clientByIdClient) {
         this.clientByIdClient = clientByIdClient;
     }
 

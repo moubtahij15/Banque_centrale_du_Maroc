@@ -1,6 +1,6 @@
 package com.example.demo.services;
 
-import com.example.demo.entities.Client;
+import com.example.demo.entities.UserApp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -26,14 +26,14 @@ public class UserDetailServiceImp implements UserDetailsService {
         System.out.println("-------");
         System.out.println(username);
         System.out.println("-------");
-        Client client = (Client) accountService.loadUserByUsername(username);
+        UserApp userApp = (UserApp) accountService.loadUserByUsername(username);
 
         System.out.println("-------");
-        System.out.println(client.getPassword());
+        System.out.println(userApp.getPassword());
         System.out.println("-------");        Collection<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-        client.getRoles().forEach(role -> {
+        userApp.getRoles().forEach(role -> {
             grantedAuthorities.add((new SimpleGrantedAuthority(role.getRoleName())));
         });
-        return new User(client.getEmail(), client.getPassword(), grantedAuthorities);
+        return new User(userApp.getEmail(), userApp.getPassword(), grantedAuthorities);
     }
 }

@@ -1,7 +1,7 @@
 package com.example.demo.services;
 
-import com.example.demo.entities.Client;
 import com.example.demo.entities.Role;
+import com.example.demo.entities.UserApp;
 import com.example.demo.repo.ClientRepository;
 import com.example.demo.repo.RoleRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,7 +12,7 @@ import java.util.List;
 
 @Transactional
 @Service
-public class AccountImplClient implements AccountService<Client> {
+public class AccountImplClient implements AccountService {
     final ClientRepository clientRepository;
     final RoleRepository roleRepository;
     final PasswordEncoder passwordEncoder;
@@ -25,9 +25,9 @@ public class AccountImplClient implements AccountService<Client> {
     }
 
     @Override
-    public Client addNewClient(Client client) {
-        client.setPassword(passwordEncoder.encode(client.getPassword()));
-        return clientRepository.save(client);
+    public UserApp addNewUser(UserApp userApp) {
+        userApp.setPassword(passwordEncoder.encode(userApp.getPassword()));
+        return clientRepository.save(userApp);
     }
 
     @Override
@@ -37,20 +37,20 @@ public class AccountImplClient implements AccountService<Client> {
 
     @Override
     public void addRoleToUser(String email, String roleName) {
-        Client client = clientRepository.findByEmail(email);
+        UserApp userApp = clientRepository.findByEmail(email);
         Role role = roleRepository.findByRoleName(roleName);
-        client.getRoles().add(role);
+        userApp.getRoles().add(role);
 
     }
 
     @Override
-    public Client loadUserByUsername(String username) {
+    public UserApp loadUserByUsername(String username) {
 
         return clientRepository.findByEmail(username);
     }
 
     @Override
-    public List<Client> listUser() {
+    public List<UserApp> listUser() {
         return clientRepository.findAll();
     }
 

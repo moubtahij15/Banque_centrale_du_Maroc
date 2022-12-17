@@ -5,8 +5,8 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.example.demo.entities.Client;
 import com.example.demo.entities.Role;
+import com.example.demo.entities.UserApp;
 import com.example.demo.security.JwtUtil;
 import com.example.demo.services.AccountImplClient;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -38,14 +38,14 @@ public class AccountRest {
 
     @PostAuthorize("hasAnyAuthority('CLIENT','ADMIN')")
     @GetMapping(path = "/clients")
-    List<Client> clients() {
+    List<UserApp> clients() {
         return accountImplClient.listUser();
     }
 
     @PostAuthorize("hasAuthority('ADMIN')")
     @PostMapping(path = "/clients")
-    public Client saveClient(@RequestBody Client client) {
-        return accountImplClient.addNewClient(client);
+    public UserApp saveClient(@RequestBody UserApp userApp) {
+        return accountImplClient.addNewClient(userApp);
     }
 
     @GetMapping(path = "/roles")
@@ -75,13 +75,13 @@ public class AccountRest {
                 DecodedJWT decodedJWT = jwtVerifier.verify(jwt);
                 String username = decodedJWT.getSubject();
 
-                Client client = accountImplClient.loadUserByUsername(username);
+                UserApp userApp = accountImplClient.loadUserByUsername(username);
 
                 String jwtAccessToken = JWT.create()
-                        .withSubject(client.getEmail())
+                        .withSubject(userApp.getEmail())
                         .withExpiresAt(new Date(System.currentTimeMillis() + JwtUtil.EXPIRE_ACCESS_TOKEN))
                         .withIssuer(request.getRequestURL().toString())
-                        .withClaim("role", client.getRoles().stream().map(Role::getRoleName).collect(Collectors.toList()))
+                        .withClaim("role", userApp.getRoles().stream().map(Role::getRoleName).collect(Collectors.toList()))
                         .sign(algorithm);
                 Map<String, String> idToken = new HashMap<>();
                 idToken.put("access-token", jwtAccessToken);
@@ -99,7 +99,7 @@ public class AccountRest {
     }
 
     @GetMapping(path = "/profile")
-    Client profile(Principal principal) {
+    UserApp profile(Principal principal) {
             return accountImplClient.loadUserByUsername(principal.getName());
     }
 }

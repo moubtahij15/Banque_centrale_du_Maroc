@@ -1,7 +1,7 @@
 package com.example.demo;
 
-import com.example.demo.entities.Client;
 import com.example.demo.entities.Role;
+import com.example.demo.entities.UserApp;
 import com.example.demo.services.AccountImplClient;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -32,9 +32,9 @@ public class BanqueCentraleApplication {
             accountImplClient.addRole(new Role(null, "ADMIN"));
             accountImplClient.addRole(new Role(null, "USER"));
 
-            accountImplClient.addNewClient(new Client("otman@gmail.com", "123456", "WA123", "CASA", "12345", "hamza", "mb"));
-            accountImplClient.addNewClient(new Client("otman1@gmail.com", "123456", "WA1223", "CASA", "12345", "hamza", "mb"));
-            accountImplClient.addNewClient(new Client("otman2@gmail.com", "123456", "WA1223", "CASA", "12345", "hamza", "mb"));
+            accountImplClient.addNewClient(new UserApp("otman@gmail.com", "123456", "WA123", "CASA", "12345", "hamza", "mb"));
+            accountImplClient.addNewClient(new UserApp("otman1@gmail.com", "123456", "WA1223", "CASA", "12345", "hamza", "mb"));
+            accountImplClient.addNewClient(new UserApp("otman2@gmail.com", "123456", "WA1223", "CASA", "12345", "hamza", "mb"));
 
             accountImplClient.addRoleToUser("otman@gmail.com", "CLIENT");
             accountImplClient.addRoleToUser("otman1@gmail.com", "ADMIN");

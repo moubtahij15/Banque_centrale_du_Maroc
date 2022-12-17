@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 @Entity
-public class Client {
+public class UserApp {
     private long id;
     private String email;
     private String password;
@@ -22,10 +22,10 @@ public class Client {
     private Collection<Compte> comptesById = new ArrayList<>();
     private Collection<Role> roles = new ArrayList<>();
 
-    public Client() {
+    public UserApp() {
     }
 
-    public Client(String email, String password, String cin, String adresse, String tel, String nom, String prenom) {
+    public UserApp(String email, String password, String cin, String adresse, String tel, String nom, String prenom) {
         this.email = email;
         this.password = password;
         this.cin = cin;
