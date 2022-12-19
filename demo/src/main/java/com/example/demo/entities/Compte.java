@@ -13,6 +13,8 @@ public class Compte {
     private Client clientByIdClient;
     private Collection<Transaction> transactionsById;
 
+
+
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id", nullable = false)
@@ -82,5 +84,18 @@ public class Compte {
 
     public void setTransactionsById(Collection<Transaction> transactionsById) {
         this.transactionsById = transactionsById;
+    }
+
+    @Override
+    public String toString() {
+        return "Compte{" +
+                "id=" + id +
+                ", rib='" + rib + '\'' +
+                ", idClient=" + idClient +
+                ", type='" + type + '\'' +
+                ", sold=" + sold +
+                ", clientByIdClient=" + clientByIdClient +
+                ", transactionsById=" + transactionsById +
+                '}';
     }
 }
