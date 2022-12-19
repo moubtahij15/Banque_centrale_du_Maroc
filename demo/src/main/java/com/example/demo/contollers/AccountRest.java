@@ -37,13 +37,13 @@ public class AccountRest {
         this.accountImplAdmin = accountImplAdmin;
     }
 
-    @PostAuthorize("hasAnyAuthority('CLIENT','ADMIN')")
+    @PostAuthorize("hasAnyAuthority('CLIENT','AGENT')")
     @GetMapping(path = "/clients")
     List<Client> clients() {
         return accountImplClient.listUser();
     }
 
-    @PostAuthorize("hasAuthority('ADMIN')")
+    @PostAuthorize("hasAuthority('AGENT')")
     @PostMapping(path = "/clients")
     public Client saveClient(@RequestBody Client client) {
         return accountImplClient.addNewUser(client);

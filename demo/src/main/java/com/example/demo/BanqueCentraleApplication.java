@@ -36,9 +36,8 @@ public class BanqueCentraleApplication {
             accountImplClient.addNewUser(new Client("otman2@gmail.com", "123456", "WA1223", "CASA", "12345", "hamza", "mb","CLIENT"));
 
 
-            accountImplAdmin.addNewUser(new Agent("otman4@gmail.com", "123456", "WA1223", "CASA", "12345", "hamza", "mb","ADMIN"));
-            accountImplAdmin.addNewUser(new Agent("otman5@gmail.com", "123456", "WA1223", "CASA", "12345", "hamza", "mb","ADMIN"));
-            accountImplAdmin.addNewUser(new Agent("otman6@gmail.com", "123456", "WA1223", "CASA", "12345", "hamza", "mb","ADMIN"));
+            accountImplAdmin.addNewUser(new Agent("otman4@gmail.com", "123456", "WA1223", "CASA","ADMIN"));
+            accountImplAdmin.addNewUser(new Agent("otman5@gmail.com", "123456", "WA1223", "CASA","ADMIN"));
 
 //            accountImplClient.addRoleToUser("otman@gmail.com", "CLIENT");
 //            accountImplClient.addRoleToUser("otman1@gmail.com", "ADMIN");

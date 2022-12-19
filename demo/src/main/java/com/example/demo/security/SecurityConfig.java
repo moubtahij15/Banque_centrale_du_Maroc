@@ -50,7 +50,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         final JwtAuthentificationFilter filter = new JwtAuthentificationFilter(authenticationManagerBean());
         filter.setFilterProcessesUrl("/api/auth/*");
         http.addFilter(filter);
-
         http.addFilterBefore(new JwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
 
     }

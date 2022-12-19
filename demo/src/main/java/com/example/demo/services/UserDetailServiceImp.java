@@ -38,7 +38,7 @@ public class UserDetailServiceImp implements UserDetailsService {
         if (role.equals("AGENT")) {
             Agent agent = (Agent) accountImplAdmin.loadUserByUsername(username);
             grantedAuthorities.add(new SimpleGrantedAuthority(agent.getRole()));
-            return new User(agent.getEmail(), agent.getPassword(), grantedAuthorities);
+            return new User(agent.getUsername(), agent.getPassword(), grantedAuthorities);
 
         } else if (role.equals("CLIENT")) {
             Client client = (Client) accountImplClient.loadUserByUsername(username);
