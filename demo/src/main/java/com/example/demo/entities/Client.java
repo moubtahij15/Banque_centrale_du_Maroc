@@ -21,6 +21,7 @@ public class Client {
     private String prenom;
     private String role;
     private Collection<Compte> comptesById = new ArrayList<>();
+    private Collection<Request> requestById = new ArrayList<>();
 
     public Client() {
     }
@@ -33,9 +34,8 @@ public class Client {
         this.tel = tel;
         this.nom = nom;
         this.prenom = prenom;
-        this.role=role;
+        this.role = role;
     }
-
 
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -158,5 +158,14 @@ public class Client {
 
     public void setComptesById(Collection<Compte> comptesById) {
         this.comptesById = comptesById;
+    }
+
+    @OneToMany(mappedBy = "clientById")
+    public Collection<Request> getRequestById() {
+        return requestById;
+    }
+
+    public void setRequestById(Collection<Request> requestById) {
+        this.requestById = requestById;
     }
 }

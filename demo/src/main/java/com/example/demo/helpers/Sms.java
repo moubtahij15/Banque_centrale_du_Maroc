@@ -25,10 +25,10 @@ public class Sms {
 
 //        Message.creator(new PhoneNumber("<TO +212777379407>"),
 //                new PhoneNumber("<FROM +212777379407>"), "Hello from Twilio 📞").create();
-        ValidationRequest validationRequest = ValidationRequest.creator(
-                        new com.twilio.type.PhoneNumber("+212777379407"))
-                .setFriendlyName("My Home Phone Number")
-                .create();
+//        ValidationRequest validationRequest = ValidationRequest.creator(
+//                        new com.twilio.type.PhoneNumber("+212777379407"))
+//                .setFriendlyName("My Home Phone Number")
+//                .create();
         Message message = Message.creator(
                         new com.twilio.type.PhoneNumber("+212777379407"),
                         new com.twilio.type.PhoneNumber("+14455451523"),
