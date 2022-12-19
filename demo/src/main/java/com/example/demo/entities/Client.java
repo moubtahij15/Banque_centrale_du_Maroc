@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 @Entity
-public class UserApp {
+public class Client {
     private long id;
     private String email;
     private String password;
@@ -19,13 +19,13 @@ public class UserApp {
     private String tel;
     private String nom;
     private String prenom;
+    private String role;
     private Collection<Compte> comptesById = new ArrayList<>();
-    private Collection<Role> roles = new ArrayList<>();
 
-    public UserApp() {
+    public Client() {
     }
 
-    public UserApp(String email, String password, String cin, String adresse, String tel, String nom, String prenom) {
+    public Client(String email, String password, String cin, String adresse, String tel, String nom, String prenom, String role) {
         this.email = email;
         this.password = password;
         this.cin = cin;
@@ -33,16 +33,10 @@ public class UserApp {
         this.tel = tel;
         this.nom = nom;
         this.prenom = prenom;
+        this.role=role;
     }
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    public Collection<Role> getRoles() {
-        return roles;
-    }
 
-    public void setRoles(Collection<Role> roles) {
-        this.roles = roles;
-    }
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -53,6 +47,16 @@ public class UserApp {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    @Basic
+    @Column(name = "role", nullable = true, length = 255)
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     @Basic

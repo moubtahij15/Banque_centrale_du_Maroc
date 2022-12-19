@@ -1,8 +1,8 @@
 package com.example.demo.repo;
 
-import com.example.demo.entities.UserApp;
+import com.example.demo.entities.Client;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ClientRepository extends JpaRepository<UserApp, Long> {
-    UserApp findByEmail(String email);
+public interface ClientRepository extends JpaRepository<Client, Long> {
+    Client findByEmail(String email);
 }

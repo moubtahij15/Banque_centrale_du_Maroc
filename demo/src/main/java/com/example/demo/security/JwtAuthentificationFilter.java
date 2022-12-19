@@ -2,6 +2,7 @@ package com.example.demo.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.example.demo.services.UserDetailServiceImp;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -33,13 +34,26 @@ public class JwtAuthentificationFilter extends UsernamePasswordAuthenticationFil
 
 
         System.out.println(request.getRequestURL().toString());
-        System.out.println("attemptAuthentication");
+        if (request.getRequestURI().endsWith("agent")) {
+            UserDetailServiceImp.role = "AGENT";
+        } else if (request.getRequestURI().endsWith("client")) {
+            UserDetailServiceImp.role = "CLIENT";
+
+        }
+
+//        System.out.println(request.getParameter(:"role").toString());
+
+       if (request.getRequestURI().endsWith("agent")||request.getRequestURI().endsWith("client")){
+           System.out.println("attemptAuthentication");
 //        System.out.println("from");
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
-        System.out.println(email + "----" + password);
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(email, password);
-        return authenticationManager.authenticate(authenticationToken);
+           String email = request.getParameter("email");
+           String password = request.getParameter("password");
+           System.out.println(email + "----" + password);
+           UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(email, password);
+           return authenticationManager.authenticate(authenticationToken);
+
+       }else
+           return null;
 
     }
 

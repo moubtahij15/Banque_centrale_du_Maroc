@@ -5,17 +5,16 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.example.demo.entities.Role;
-import com.example.demo.entities.UserApp;
+import com.example.demo.entities.Agent;
+import com.example.demo.entities.Client;
 import com.example.demo.security.JwtUtil;
+import com.example.demo.services.AccountImplAdmin;
 import com.example.demo.services.AccountImplClient;
+import com.example.demo.services.AccountService;
+import com.example.demo.services.UserDetailServiceImp;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PostAuthorize;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,42 +25,30 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @RestController
 public class AccountRest {
     final AccountImplClient accountImplClient;
+    final AccountImplAdmin accountImplAdmin;
 
-    public AccountRest(AccountImplClient accountImplClient) {
+
+    public AccountRest(AccountImplClient accountImplClient, AccountImplAdmin accountImplAdmin) {
         this.accountImplClient = accountImplClient;
+        this.accountImplAdmin = accountImplAdmin;
     }
 
     @PostAuthorize("hasAnyAuthority('CLIENT','ADMIN')")
     @GetMapping(path = "/clients")
-    List<UserApp> clients() {
+    List<Client> clients() {
         return accountImplClient.listUser();
     }
 
     @PostAuthorize("hasAuthority('ADMIN')")
     @PostMapping(path = "/clients")
-    public UserApp saveClient(@RequestBody UserApp userApp) {
-        return accountImplClient.addNewUser(userApp);
+    public Client saveClient(@RequestBody Client client) {
+        return accountImplClient.addNewUser(client);
     }
 
-    @GetMapping(path = "/roles")
-    List<Role> roles() {
-        return accountImplClient.listRole();
-    }
-
-    @PostMapping(path = "/roles")
-    public Role saveRole(@RequestBody Role role) {
-        return accountImplClient.addRole(role);
-    }
-
-    @PostMapping(path = "/addRoleToUser")
-    public void addRoleToUser(@RequestBody String username, @RequestBody String roleName) {
-        accountImplClient.addRoleToUser(username, roleName);
-    }
 
     @GetMapping(path = "/refreshToken")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -75,13 +62,13 @@ public class AccountRest {
                 DecodedJWT decodedJWT = jwtVerifier.verify(jwt);
                 String username = decodedJWT.getSubject();
 
-                UserApp userApp = accountImplClient.loadUserByUsername(username);
+                Client client = accountImplClient.loadUserByUsername(username);
 
                 String jwtAccessToken = JWT.create()
-                        .withSubject(userApp.getEmail())
+                        .withSubject(client.getEmail())
                         .withExpiresAt(new Date(System.currentTimeMillis() + JwtUtil.EXPIRE_ACCESS_TOKEN))
                         .withIssuer(request.getRequestURL().toString())
-                        .withClaim("role", userApp.getRoles().stream().map(Role::getRoleName).collect(Collectors.toList()))
+                        .withClaim("role", client.getRole().toString())
                         .sign(algorithm);
                 Map<String, String> idToken = new HashMap<>();
                 idToken.put("access-token", jwtAccessToken);
@@ -99,8 +86,15 @@ public class AccountRest {
     }
 
     @GetMapping(path = "/profile")
-    UserApp profile(Principal principal) {
+    Object profile(Principal principal) {
+        if (UserDetailServiceImp.role.equals("AGENT")) {
+            return (Agent) accountImplAdmin.loadUserByUsername(principal.getName());
+
+        } else if (UserDetailServiceImp.role.equals("CLIENT")) {
             return accountImplClient.loadUserByUsername(principal.getName());
+
+        }
+        return null;
     }
 }
 

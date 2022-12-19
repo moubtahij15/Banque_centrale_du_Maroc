@@ -47,13 +47,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.authorizeRequests().antMatchers("/refreshToken/**").permitAll();
         http.authorizeRequests().anyRequest().authenticated();
-        http.addFilter(new JwtAuthentificationFilter(authenticationManagerBean()));
+        final JwtAuthentificationFilter filter = new JwtAuthentificationFilter(authenticationManagerBean());
+        filter.setFilterProcessesUrl("/api/auth/*");
+        http.addFilter(filter);
+
         http.addFilterBefore(new JwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+
     }
 
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
+
         return super.authenticationManagerBean();
     }
+
+
 }
