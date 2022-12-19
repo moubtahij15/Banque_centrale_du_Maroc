@@ -1,22 +1,16 @@
 package com.example.demo.services;
 
-import com.example.demo.entities.Role;
-import com.example.demo.entities.UserApp;
+import com.example.demo.entities.Client;
 
 import java.util.List;
 
-public interface AccountService {
+public interface AccountService<T> {
 
-    UserApp addNewUser(UserApp userApp);
+    T addNewUser(T t);
 
-    Role addRole(Role role);
+    T loadUserByUsername(String username);
 
-    void addRoleToUser(String email, String roleName);
+    List<T> listUser();
 
-    UserApp loadUserByUsername(String username);
-
-    List<UserApp> listUser();
-
-    List<Role> listRole();
 
 }

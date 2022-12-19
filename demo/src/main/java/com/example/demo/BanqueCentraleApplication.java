@@ -1,7 +1,8 @@
 package com.example.demo;
 
-import com.example.demo.entities.Role;
-import com.example.demo.entities.UserApp;
+import com.example.demo.entities.Agent;
+import com.example.demo.entities.Client;
+import com.example.demo.services.AccountImplAdmin;
 import com.example.demo.services.AccountImplClient;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -26,19 +27,22 @@ public class BanqueCentraleApplication {
 
 
     @Bean
-    CommandLineRunner start(AccountImplClient accountImplClient) {
+    CommandLineRunner start(AccountImplClient accountImplClient, AccountImplAdmin accountImplAdmin) {
         return args -> {
-            accountImplClient.addRole(new Role(null, "CLIENT"));
-            accountImplClient.addRole(new Role(null, "ADMIN"));
-            accountImplClient.addRole(new Role(null, "USER"));
 
-            accountImplClient.addNewUser(new UserApp("otman@gmail.com", "123456", "WA123", "CASA", "12345", "hamza", "mb"));
-            accountImplClient.addNewUser(new UserApp("otman1@gmail.com", "123456", "WA1223", "CASA", "12345", "hamza", "mb"));
-            accountImplClient.addNewUser(new UserApp("otman2@gmail.com", "123456", "WA1223", "CASA", "12345", "hamza", "mb"));
 
-            accountImplClient.addRoleToUser("otman@gmail.com", "CLIENT");
-            accountImplClient.addRoleToUser("otman1@gmail.com", "ADMIN");
-            accountImplClient.addRoleToUser("otman2@gmail.com", "USER");
+            accountImplClient.addNewUser(new Client("otman@gmail.com", "123456", "WA123", "CASA", "12345", "hamza", "mb","CLIENT"));
+            accountImplClient.addNewUser(new Client("otman1@gmail.com", "123456", "WA1223", "CASA", "12345", "hamza", "mb","CLIENT"));
+            accountImplClient.addNewUser(new Client("otman2@gmail.com", "123456", "WA1223", "CASA", "12345", "hamza", "mb","CLIENT"));
+
+
+            accountImplAdmin.addNewUser(new Agent("otman4@gmail.com", "123456", "WA1223", "CASA", "12345", "hamza", "mb","ADMIN"));
+            accountImplAdmin.addNewUser(new Agent("otman5@gmail.com", "123456", "WA1223", "CASA", "12345", "hamza", "mb","ADMIN"));
+            accountImplAdmin.addNewUser(new Agent("otman6@gmail.com", "123456", "WA1223", "CASA", "12345", "hamza", "mb","ADMIN"));
+
+//            accountImplClient.addRoleToUser("otman@gmail.com", "CLIENT");
+//            accountImplClient.addRoleToUser("otman1@gmail.com", "ADMIN");
+//            accountImplClient.addRoleToUser("otman2@gmail.com", "USER");
 
         };
     }
