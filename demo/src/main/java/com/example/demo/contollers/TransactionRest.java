@@ -8,6 +8,8 @@ import com.example.demo.services.TransactionService;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
+
 @RestController
 @RequestMapping(path="api/client/")
 public class TransactionRest {
@@ -22,11 +24,18 @@ public class TransactionRest {
 
     @PostAuthorize("hasAuthority('CLIENT')")
     @PostMapping(path = "/achat")
-    public void achat(@RequestBody Transaction transaction ){
-//        System.out.println(dateTransaction+" "+type+" "+email);
-        System.out.println(transaction);
-//
-//        transactionService.achat(transaction);
+    public void achat(  @RequestParam String dateTransaction,
+                        @RequestParam double montant,
+                        @RequestParam long idCompte
+                      ){
+
+        Transaction transaction = new Transaction();
+
+        transaction.setMontant(montant);
+        transaction.setIdCompte(idCompte);
+        transaction.setType("Achat");
+
+        transactionService.achat(transaction);
 
     }
 

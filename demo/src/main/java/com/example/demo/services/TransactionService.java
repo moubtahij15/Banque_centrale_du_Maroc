@@ -24,14 +24,22 @@ public class TransactionService {
     }
     public void achat(Transaction transaction) {
 
-        Compte compte = compteRepository.findCompteById(1L);
+        Compte compte = compteRepository.findCompteById(transaction.getIdCompte());
+        double solde = compte.getSold();
+        double TransactionMontant = transaction.getMontant();
+
+
 
         if (!compte.equals(null)){
 
-            System.out.println(compte);
-
-
+            boolean positiveSold = checkSolde(solde,TransactionMontant);
+//            if ( solde>=TransactionMontant )
+//            System.out.println(compte);
         }
         transactionRepository.save(transaction);
+    }
+
+    public boolean checkSolde(double solde,double TransactionMontant){
+      return false;
     }
 }

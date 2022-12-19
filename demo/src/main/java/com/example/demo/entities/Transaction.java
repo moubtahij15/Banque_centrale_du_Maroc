@@ -1,17 +1,55 @@
 package com.example.demo.entities;
 
 import javax.persistence.*;
+import java.util.Date;
+
 
 @Entity
 public class Transaction {
     private long id;
-    private Long idCompte;
-    private Long dateTransaction;
-    private Double mentant;
+    private long idCompte;
+    private double montant;
     private String type;
     private Compte compteByIdCompte;
     private FactureInfo factureInfo;
     private Virement virements;
+    private Date created;
+
+    public void setMontant(double montant) {
+        this.montant = montant;
+    }
+
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
+    public Date getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(Date updated) {
+        this.updated = updated;
+    }
+
+    private Date updated;
+
+    @PrePersist
+    protected void onCreate(){
+        this.created = new Date();
+        this.updated = new Date();
+    }
+
+    @PreUpdate
+    protected void onUpdate(){
+        this.updated = new Date();
+    }
+
+
 
     @OneToOne(mappedBy = "transaction")
     public FactureInfo getFactureInfo() {
@@ -45,34 +83,22 @@ public class Transaction {
 
     @Basic
     @Column(name = "id_compte", nullable = true)
-    public Long getIdCompte() {
+    public long getIdCompte() {
         return idCompte;
     }
 
-    public void setIdCompte(Long idCompte) {
+    public void setIdCompte(long idCompte) {
         this.idCompte = idCompte;
     }
 
     @Basic
-    @Column(name = "date_transaction", nullable = true)
-    public Long getDateTransaction() {
-        return dateTransaction;
+    @Column(name = "montant", nullable = true, precision = 0)
+    public Double getMontant() {
+        return montant;
     }
 
-    public void setDateTransaction(Long dateTransaction) {
-        this.dateTransaction = dateTransaction;
-    }
-
-
-
-    @Basic
-    @Column(name = "mentant", nullable = true, precision = 0)
-    public Double getMentant() {
-        return mentant;
-    }
-
-    public void setMentant(Double mentant) {
-        this.mentant = mentant;
+    public void setMontant(Double montant) {
+        this.montant = montant;
     }
 
     @Basic
@@ -94,4 +120,7 @@ public class Transaction {
     public void setCompteByIdCompte(Compte compteByIdCompte) {
         this.compteByIdCompte = compteByIdCompte;
     }
+
+
+
 }
