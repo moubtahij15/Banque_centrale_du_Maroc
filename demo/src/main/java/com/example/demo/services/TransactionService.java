@@ -43,8 +43,6 @@ public class TransactionService {
         Collection<Transaction> transactionsOfTheDay = transactionRepository.findTransactionByDay(1, "Achat");
 
         for (Transaction transactionYear : transactionsOfTheYear) {
-
-
             if (compte.getType().equals("pro") && transactionYear.getDotation().equals("international")) {
 
                 AchatInetnationalYear += transactionYear.getMontant();
@@ -56,18 +54,21 @@ public class TransactionService {
             } else {
                 for (Transaction transactionDay : transactionsOfTheDay
                 ) {
-                    DayAmount = transactionDay.getMontant();
+                    DayAmount += transactionDay.getMontant();
 
 
                 }
-                YearAmount = transactionYear.getMontant();
+                YearAmount += transactionYear.getMontant();
             }
-
-
         }
 
+        System.out.println("AchatInetnationalYear "+AchatInetnationalYear);
+        System.out.println("AchatNationalYear "+AchatNationalYear);
+        System.out.println("DayAmount "+DayAmount);
+        System.out.println("YearAmount "+YearAmount);
 
         if (!compte.equals(null)) {
+            System.out.println();
 
             positiveSolde = limit.checkSolde(solde, TransactionMontant);
 
@@ -81,8 +82,6 @@ public class TransactionService {
                 if(sumYear>100000){
                     positiveYearlimit= false;
                 }
-
-
             }else {
                 if (transaction.getDotation().equals("national")){
                    double sumNational = AchatNationalYear+transaction.getMontant();
@@ -92,13 +91,14 @@ public class TransactionService {
                    } else if (sunInternational>100000) {
                        positiveYearlimit=false;
                    }
-
                 }
             }
 
             if (positiveSolde && positiveDaylimit && positiveYearlimit){
                 System.out.println("confirmed achat");
                 transactionRepository.save(transaction);
+                compte.setSold(compte.getSold()-transaction.getMontant());
+                compteRepository.save(compte);
 
             }
             else{

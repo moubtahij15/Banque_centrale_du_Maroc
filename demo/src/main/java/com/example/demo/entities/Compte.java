@@ -11,7 +11,7 @@ public class Compte {
     private String rib;
     private Long idClient;
     private String type;
-    private long sold;
+    private double sold;
     private Client clientByIdClient;
     private Collection<Transaction> transactionsById;
 
@@ -65,11 +65,11 @@ public class Compte {
     @Basic
     @Column(name = "sold", nullable = false)
     @ColumnDefault("0")
-    public long getSold() {
+    public double getSold() {
         return sold;
     }
 
-    public void setSold(long sold) {
+    public void setSold(double sold) {
         this.sold = sold;
     }
 
