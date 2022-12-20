@@ -29,6 +29,7 @@ public class TransactionService {
     }
 
     public void achat(Transaction transaction) {
+
         Compte compte = compteRepository.findCompteById(transaction.getIdCompte());
         double solde = compte.getSold();
         double TransactionMontant = transaction.getMontant();
@@ -42,6 +43,7 @@ public class TransactionService {
         Collection<Transaction> transactionsOfTheDay = transactionRepository.findTransactionByDay(1, "Achat");
 
         for (Transaction transactionYear : transactionsOfTheYear) {
+
 
             if (compte.getType().equals("pro") && transactionYear.getDotation().equals("international")) {
 
@@ -70,16 +72,41 @@ public class TransactionService {
             positiveSolde = limit.checkSolde(solde, TransactionMontant);
 
             if (compte.getType().equals("standard")) {
-                positiveDaylimit = limit.checkDayLimit(TransactionMontant, type, DayAmount);
+
+                double sumDay = TransactionMontant + DayAmount;
+                double sumYear = TransactionMontant+YearAmount;
+                if (sumDay > 5000) {
+                    positiveDaylimit = false;
+                }
+                if(sumYear>100000){
+                    positiveYearlimit= false;
+                }
+
+
+            }else {
+                if (transaction.getDotation().equals("national")){
+                   double sumNational = AchatNationalYear+transaction.getMontant();
+                   double sunInternational = AchatInetnationalYear+transaction.getMontant();
+                   if (sumNational>15000){
+                       positiveYearlimit=false;
+                   } else if (sunInternational>100000) {
+                       positiveYearlimit=false;
+                   }
+
+                }
             }
 
-            positiveYearlimit = limit.checkYearLimit(TransactionMontant, type, YearAmount);
+            if (positiveSolde && positiveDaylimit && positiveYearlimit){
+                System.out.println("confirmed achat");
+                transactionRepository.save(transaction);
+
+            }
+            else{
+                System.out.println("you already reach the limit");
+            }
 
 
-//            if ( solde>=TransactionMontant )
-//            System.out.println(compte);
         }
-        transactionRepository.save(transaction);
     }
 
 
