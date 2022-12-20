@@ -1,5 +1,7 @@
 package com.example.demo.entities;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import javax.persistence.*;
 import java.util.Collection;
 
@@ -13,6 +15,9 @@ public class Compte {
     private Client clientByIdClient;
     private Collection<Transaction> transactionsById;
 
+    public Compte() {
+
+    }
 
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -59,6 +64,7 @@ public class Compte {
 
     @Basic
     @Column(name = "sold", nullable = false)
+    @ColumnDefault("0")
     public long getSold() {
         return sold;
     }
@@ -84,6 +90,13 @@ public class Compte {
 
     public void setTransactionsById(Collection<Transaction> transactionsById) {
         this.transactionsById = transactionsById;
+    }
+
+    public Compte(String rib, Long idClient, String type, long sold) {
+        this.rib = rib;
+        this.idClient = idClient;
+        this.type = type;
+        this.sold = sold;
     }
 
     @Override

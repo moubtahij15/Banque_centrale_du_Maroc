@@ -33,6 +33,11 @@ public class AccountImplAdmin implements AccountService<Agent> {
     }
 
     @Override
+    public Client addNewUser(Client client, String compteType) {
+        return null;
+    }
+
+    @Override
     public Agent loadUserByUsername(String username) {
         return agentRepository.findAgentByUsername(username);
     }

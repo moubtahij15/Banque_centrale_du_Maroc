@@ -8,6 +8,8 @@ public interface AccountService<T> {
 
     T addNewUser(T t);
 
+    Client addNewUser(Client client, String compteType);
+
     T loadUserByUsername(String username);
 
     List<T> listUser();

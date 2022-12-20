@@ -35,6 +35,7 @@ public class Request {
     public void setEtat(String etat) {
         Etat = etat;
     }
+
     @Basic
     @Column(name = "client_id", nullable = true)
     public long getClient_id() {
@@ -45,7 +46,7 @@ public class Request {
         this.client_id = client_id;
     }
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "client_id", referencedColumnName = "id", insertable = false, updatable = false)
     public Client getClientById() {
         return clientById;
@@ -64,5 +65,14 @@ public class Request {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public Request(String etat, long client_id, String type) {
+        Etat = etat;
+        this.client_id = client_id;
+        this.type = type;
+    }
+
+    public Request() {
     }
 }
