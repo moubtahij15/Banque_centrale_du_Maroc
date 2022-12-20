@@ -18,65 +18,62 @@ public class TransactionService {
 
     private final TransactionRepository transactionRepository;
     private final Limit limit;
-   private final CompteRepository compteRepository;
+    private final CompteRepository compteRepository;
 
-    public TransactionService(TransactionRepository transactionRepository,CompteRepository compteRepository,Limit limit){
-        this.transactionRepository=transactionRepository;
-        this.compteRepository=compteRepository;
-        this.limit=limit;
+    public TransactionService(TransactionRepository transactionRepository, CompteRepository compteRepository, Limit limit) {
+        this.transactionRepository = transactionRepository;
+        this.compteRepository = compteRepository;
+        this.limit = limit;
 
 
     }
-    public void achat(Transaction transaction) {
 
+    public void achat(Transaction transaction) {
         Compte compte = compteRepository.findCompteById(transaction.getIdCompte());
         double solde = compte.getSold();
         double TransactionMontant = transaction.getMontant();
-        double  YearAmount=0;
-        double AchatInetnationalYear=0,AchatNationalYear=0;
-        double  DayAmount=0;
-        boolean positiveSolde=true,positiveDaylimit=true,positiveYearlimit=true;
-        String type= compte.getType();
+        double YearAmount = 0;
+        double AchatInetnationalYear = 0, AchatNationalYear = 0;
+        double DayAmount = 0;
+        boolean positiveSolde = true, positiveDaylimit = true, positiveYearlimit = true;
+        String type = compte.getType();
 
-        Collection<Transaction> transactionsOfTheYear= transactionRepository.findTransactionByYear(1, 2022,"Achat");
-        Collection<Transaction> transactionsOfTheDay= transactionRepository.findTransactionByDay(1,"Achat");
+        Collection<Transaction> transactionsOfTheYear = transactionRepository.findTransactionByYear(1, 2022, "Achat");
+        Collection<Transaction> transactionsOfTheDay = transactionRepository.findTransactionByDay(1, "Achat");
 
-        for (Transaction transactionYear: transactionsOfTheYear) {
+        for (Transaction transactionYear : transactionsOfTheYear) {
 
-
-            if(compte.getType().equals("pro")&& transactionYear.getDotation().equals("international")){
+            if (compte.getType().equals("pro") && transactionYear.getDotation().equals("international")) {
 
                 AchatInetnationalYear += transactionYear.getMontant();
 
-            }
-            else if (compte.getType().equals("pro") && transactionYear.getDotation().equals("national") ) {
+            } else if (compte.getType().equals("pro") && transactionYear.getDotation().equals("national")) {
 
                 AchatNationalYear += transactionYear.getMontant();
 
-            }
-            else{
-                for (Transaction transactionDay: transactionsOfTheDay
+            } else {
+                for (Transaction transactionDay : transactionsOfTheDay
                 ) {
-                    DayAmount=transactionDay.getMontant();
+                    DayAmount = transactionDay.getMontant();
 
 
                 }
-                YearAmount=transactionYear.getMontant();
+                YearAmount = transactionYear.getMontant();
             }
 
 
         }
 
 
-        if (!compte.equals(null)){
+        if (!compte.equals(null)) {
 
-             positiveSolde = limit.checkSolde(solde,TransactionMontant);
+            positiveSolde = limit.checkSolde(solde, TransactionMontant);
 
-             if(compte.getType().equals("standard")){
-                 positiveDaylimit = limit.checkDayLimit(TransactionMontant,type,DayAmount);
-             }
+            if (compte.getType().equals("standard")) {
+                positiveDaylimit = limit.checkDayLimit(TransactionMontant, type, DayAmount);
+            }
 
-             positiveYearlimit = limit.checkYearLimit(TransactionMontant,type,YearAmount);
+            positiveYearlimit = limit.checkYearLimit(TransactionMontant, type, YearAmount);
 
 
 //            if ( solde>=TransactionMontant )

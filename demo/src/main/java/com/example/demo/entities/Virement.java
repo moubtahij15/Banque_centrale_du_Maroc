@@ -5,7 +5,7 @@ import javax.persistence.*;
 @Entity
 public class Virement {
     private long id;
-    private Long ribDestinataire;
+    private String ribDestinataire;
     private String etat;
 
     private Transaction transactions;
@@ -31,11 +31,18 @@ public class Virement {
         this.id = id;
     }
 
+    public void setRibDestinataire(String ribDestinataire) {
+        this.ribDestinataire = ribDestinataire;
+    }
+
+
     @Basic
     @Column(name = "rib_destinataire", nullable = true)
-    public Long getRibDestinataire() {
+    public String getRibDestinataire() {
         return ribDestinataire;
     }
+
+
     @Basic
     @Column(name = "etat", nullable = true, length = 255)
     public String getEtat() {
@@ -46,9 +53,12 @@ public class Virement {
         this.etat = etat;
     }
 
-    public void setRibDestinataire(Long ribDestinataire) {
+
+    public Virement(String ribDestinataire, String etat) {
         this.ribDestinataire = ribDestinataire;
+        this.etat = etat;
     }
 
-
+    public Virement() {
+    }
 }

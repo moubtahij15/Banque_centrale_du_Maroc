@@ -6,4 +6,6 @@ public interface Enum {
     enum TypeCompte {STANDARD, PROFESSIONNEL}
 
     enum role {AGENT, CLIENT}
+
+    enum operation {ACHAT, RETRAIT, VIREMENT, FACTURE}
 }

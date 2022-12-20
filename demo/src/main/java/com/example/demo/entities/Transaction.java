@@ -48,16 +48,15 @@ public class Transaction {
     private Date updated;
 
     @PrePersist
-    protected void onCreate(){
+    protected void onCreate() {
         this.created = new Date();
         this.updated = new Date();
     }
 
     @PreUpdate
-    protected void onUpdate(){
+    protected void onUpdate() {
         this.updated = new Date();
     }
-
 
 
     @OneToOne(mappedBy = "transaction")
@@ -130,6 +129,14 @@ public class Transaction {
         this.compteByIdCompte = compteByIdCompte;
     }
 
+    public Transaction(long idCompte, double montant, String type, String dotation) {
+        this.idCompte = idCompte;
+        this.montant = montant;
+        this.type = type;
+        this.dotation = dotation;
+    }
 
 
+    public Transaction() {
+    }
 }
