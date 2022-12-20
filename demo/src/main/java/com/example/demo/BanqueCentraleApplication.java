@@ -2,6 +2,7 @@ package com.example.demo;
 
 import com.example.demo.entities.Agent;
 import com.example.demo.entities.Client;
+import com.example.demo.helpers.Enum;
 import com.example.demo.services.AccountImplAdmin;
 import com.example.demo.services.AccountImplClient;
 import org.springframework.boot.CommandLineRunner;
@@ -34,9 +35,9 @@ public class BanqueCentraleApplication {
         return args -> {
 
 
-            accountImplClient.addNewUser(new Client("otman@gmail.com", "123456", "WA123", "CASA", "12345", "hamza", "mb", "CLIENT"));
-            accountImplClient.addNewUser(new Client("otman1@gmail.com", "123456", "WA1223", "CASA", "12345", "hamza", "mb", "CLIENT"));
-            accountImplClient.addNewUser(new Client("otman2@gmail.com", "123456", "WA1223", "CASA", "12345", "hamza", "mb", "CLIENT"));
+            accountImplClient.addNewUser(new Client("otman@gmail.com", "123456", "WA123", "CASA", "12345", "hamza", "mb", "CLIENT"), Enum.TypeCompte.PROFESSIONNEL.toString());
+            accountImplClient.addNewUser(new Client("otman1@gmail.com", "123456", "WA1223", "CASA", "12345", "hamza", "mb", "CLIENT"),Enum.TypeCompte.PROFESSIONNEL.toString());
+            accountImplClient.addNewUser(new Client("otman2@gmail.com", "123456", "WA1223", "CASA", "12345", "hamza", "mb", "CLIENT"),Enum.TypeCompte.PROFESSIONNEL.toString());
 
 
             accountImplAdmin.addNewUser(new Agent("otman4@gmail.com", "123456", "WA1223", "CASA", "AGENT"));

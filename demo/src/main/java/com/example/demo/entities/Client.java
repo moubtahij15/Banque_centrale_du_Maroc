@@ -35,6 +35,7 @@ public class Client {
         this.nom = nom;
         this.prenom = prenom;
         this.role = role;
+
     }
 
 
@@ -160,7 +161,7 @@ public class Client {
         this.comptesById = comptesById;
     }
 
-    @OneToMany(mappedBy = "clientById")
+    @OneToMany(mappedBy = "clientById",fetch = FetchType.LAZY )
     public Collection<Request> getRequestById() {
         return requestById;
     }
@@ -168,4 +169,8 @@ public class Client {
     public void setRequestById(Collection<Request> requestById) {
         this.requestById = requestById;
     }
+
+
 }
+
+

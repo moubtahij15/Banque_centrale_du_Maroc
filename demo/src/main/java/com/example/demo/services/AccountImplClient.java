@@ -1,7 +1,10 @@
 package com.example.demo.services;
 
 import com.example.demo.entities.Client;
+import com.example.demo.entities.Request;
+import com.example.demo.helpers.Enum;
 import com.example.demo.repo.ClientRepository;
+import com.example.demo.repo.RequestRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,20 +15,30 @@ import java.util.List;
 @Service
 public class AccountImplClient implements AccountService<Client> {
     final ClientRepository clientRepository;
+    final RequestRepository requestRepository;
     final PasswordEncoder passwordEncoder;
+    final CompteService compteService;
 
 
-    public AccountImplClient(ClientRepository clientRepository, PasswordEncoder passwordEncoder) {
+    public AccountImplClient(ClientRepository clientRepository, RequestRepository requestRepository, PasswordEncoder passwordEncoder, CompteService compteService) {
         this.clientRepository = clientRepository;
+        this.requestRepository = requestRepository;
         this.passwordEncoder = passwordEncoder;
+        this.compteService = compteService;
     }
 
     @Override
     public Client addNewUser(Client client) {
-        client.setPassword(passwordEncoder.encode(client.getPassword()));
-        return clientRepository.save(client);
+        return null;
     }
 
+    @Override
+    public Client addNewUser(Client client, String compteType) {
+        client.setPassword(passwordEncoder.encode(client.getPassword()));
+        client.setEtat(Enum.Etat.EN_COURS.toString());
+        requestRepository.save(new Request(Enum.Etat.EN_COURS.toString(), clientRepository.save(client).getId(), compteType));
+        return client;
+    }
 
 
     @Override
@@ -39,5 +52,14 @@ public class AccountImplClient implements AccountService<Client> {
         return clientRepository.findAll();
     }
 
+
+    public Client validerClient(long id) {
+        Request request = requestRepository.findRequestByClient_id(id);
+        requestRepository.ValiderRequest(Enum.Etat.VALIDE.toString(), request.getId());
+        compteService.createCompte(id, request.getType());
+        clientRepository.valider(id);
+        System.out.println(id);
+        return clientRepository.findClientById(2);
+    }
 
 }
