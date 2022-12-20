@@ -36,26 +36,34 @@ public class CompteService {
         return str.toString();
     }
 
-    void createCompte(long id_client, String type) {
+    public void createCompte(long id_client, String type) {
         compteRepository.save(new Compte(generateRib(), id_client, type, 0));
     }
 
-    boolean verser(Transaction transaction, String ribDestinataire) {
 
-        if ((transaction.getCompteByIdCompte().getSold() >= transaction.getMontant()) && (compteRepository.findCompteByRib(ribDestinataire) != null)) {
+    public String verser(Transaction transaction, String ribDestinataire) {
+        Compte emetteur = compteRepository.findCompteById(transaction.getIdCompte());
+        Compte destinataire = compteRepository.findCompteByRib(ribDestinataire);
+
+        if ((emetteur.getSold() >= transaction.getMontant()) && (destinataire != null)) {
             transactionRepository.save(transaction);
-            virementRepository.save(new Virement(ribDestinataire, Enum.Etat.EN_COURS.toString()));
-
-            return true;
+            Virement virement = new Virement(ribDestinataire, Enum.Etat.EN_COURS.toString());
+            virement.setTransactions(transaction);
+            virementRepository.save(virement);
+            compteRepository.updateSolde((emetteur.getSold() - transaction.getMontant()), transaction.getIdCompte());
+            return "Bien Verser en attente la verification";
         }
-        return false;
+        return "Votre Solde o rib incorrect";
 
     }
 
-    boolean validerVirement(Long id_virement) {
-        Compte emetteur = virementRepository.findVirementById(id_virement).getTransactions().getCompteByIdCompte();
-//        Compte destinataire =
-        return false;
+    public String validerVirement(Long id_virement) {
+        Virement currentVirement = virementRepository.findVirementById(id_virement);
+        Transaction currentTransaction = currentVirement.getTransactions();
+        Compte destinataire = compteRepository.findCompteByRib(currentVirement.getRibDestinataire());
+        virementRepository.validerVirement(Enum.Etat.VALIDE.toString(), id_virement);
+        compteRepository.updateSolde((destinataire.getSold() + currentTransaction.getMontant()), destinataire.getId());
+        return "valide";
     }
 
 

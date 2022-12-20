@@ -80,7 +80,7 @@ public class Client {
     }
 
     @Basic
-    @Column(name = "urlCin", nullable = true, length = 255)
+    @Column(name = "url_cin", nullable = true, length = 255)
     public String getUrlCin() {
         return urlCin;
     }
@@ -161,7 +161,7 @@ public class Client {
         this.comptesById = comptesById;
     }
 
-    @OneToMany(mappedBy = "clientById",fetch = FetchType.LAZY )
+    @OneToMany(mappedBy = "clientById")
     public Collection<Request> getRequestById() {
         return requestById;
     }

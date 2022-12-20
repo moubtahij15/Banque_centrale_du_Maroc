@@ -7,7 +7,6 @@ public class Virement {
     private long id;
     private String ribDestinataire;
     private String etat;
-
     private Transaction transactions;
 
     @OneToOne

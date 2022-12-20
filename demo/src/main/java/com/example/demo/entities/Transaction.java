@@ -129,10 +129,9 @@ public class Transaction {
         this.compteByIdCompte = compteByIdCompte;
     }
 
-    public Transaction(long idCompte, double montant, String type, String dotation) {
+    public Transaction(long idCompte, double montant, String dotation) {
         this.idCompte = idCompte;
         this.montant = montant;
-        this.type = type;
         this.dotation = dotation;
     }
 
