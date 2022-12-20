@@ -13,7 +13,16 @@ public class Transaction {
     private Compte compteByIdCompte;
     private FactureInfo factureInfo;
     private Virement virements;
+    private String dotation;
     private Date created;
+
+    public String getDotation() {
+        return dotation;
+    }
+
+    public void setDotation(String dotation) {
+        this.dotation = dotation;
+    }
 
     public void setMontant(double montant) {
         this.montant = montant;

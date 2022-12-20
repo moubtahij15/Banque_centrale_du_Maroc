@@ -2,6 +2,8 @@ package com.example.demo;
 
 import com.example.demo.entities.Agent;
 import com.example.demo.entities.Client;
+import com.example.demo.entities.Transaction;
+import com.example.demo.repo.TransactionRepository;
 import com.example.demo.services.AccountImplAdmin;
 import com.example.demo.services.AccountImplClient;
 import org.springframework.boot.CommandLineRunner;
@@ -15,12 +17,18 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.Collection;
+
 @SpringBootApplication
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class BanqueCentraleApplication {
 
+    TransactionRepository transactionRepository;
+
     public static void main(String[] args) {
+
         SpringApplication.run(BanqueCentraleApplication.class, args);
+
     }
 
     @Bean
@@ -29,18 +37,21 @@ public class BanqueCentraleApplication {
     }
 
 
+
+
     @Bean
-    CommandLineRunner start(AccountImplClient accountImplClient, AccountImplAdmin accountImplAdmin) {
+    CommandLineRunner start(AccountImplClient accountImplClient, AccountImplAdmin accountImplAdmin,TransactionRepository transactionRepository) {
+
         return args -> {
 
 
-            accountImplClient.addNewUser(new Client("otman@gmail.com", "123456", "WA123", "CASA", "12345", "hamza", "mb", "CLIENT"));
-            accountImplClient.addNewUser(new Client("otman1@gmail.com", "123456", "WA1223", "CASA", "12345", "hamza", "mb", "CLIENT"));
-            accountImplClient.addNewUser(new Client("otman2@gmail.com", "123456", "WA1223", "CASA", "12345", "hamza", "mb", "CLIENT"));
-
-
-            accountImplAdmin.addNewUser(new Agent("otman4@gmail.com", "123456", "WA1223", "CASA", "AGENT"));
-            accountImplAdmin.addNewUser(new Agent("otman5@gmail.com", "123456", "WA1223", "CASA", "AGENT"));
+//            accountImplClient.addNewUser(new Client("otman@gmail.com", "123456", "WA123", "CASA", "12345", "hamza", "mb", "CLIENT"));
+//            accountImplClient.addNewUser(new Client("otman1@gmail.com", "123456", "WA1223", "CASA", "12345", "hamza", "mb", "CLIENT"));
+//            accountImplClient.addNewUser(new Client("otman2@gmail.com", "123456", "WA1223", "CASA", "12345", "hamza", "mb", "CLIENT"));
+//
+//
+//            accountImplAdmin.addNewUser(new Agent("otman4@gmail.com", "123456", "WA1223", "CASA", "AGENT"));
+//            accountImplAdmin.addNewUser(new Agent("otman5@gmail.com", "123456", "WA1223", "CASA", "AGENT"));
 
 //            accountImplClient.addRoleToUser("otman@gmail.com", "CLIENT");
 //            accountImplClient.addRoleToUser("otman1@gmail.com", "ADMIN");

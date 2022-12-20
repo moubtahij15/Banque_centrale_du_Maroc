@@ -9,6 +9,8 @@ import com.example.demo.repo.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -30,15 +32,52 @@ public class TransactionService {
         Compte compte = compteRepository.findCompteById(transaction.getIdCompte());
         double solde = compte.getSold();
         double TransactionMontant = transaction.getMontant();
+        double  YearAmount=0;
+        double AchatInetnationalYear=0,AchatNationalYear=0;
+        double  DayAmount=0;
+        boolean positiveSolde=true,positiveDaylimit=true,positiveYearlimit=true;
         String type= compte.getType();
 
+        Collection<Transaction> transactionsOfTheYear= transactionRepository.findTransactionByYear(1, 2022,"Achat");
+        Collection<Transaction> transactionsOfTheDay= transactionRepository.findTransactionByDay(1,"Achat");
+
+        for (Transaction transactionYear: transactionsOfTheYear) {
+
+
+            if(compte.getType().equals("pro")&& transactionYear.getDotation().equals("international")){
+
+                AchatInetnationalYear += transactionYear.getMontant();
+
+            }
+            else if (compte.getType().equals("pro") && transactionYear.getDotation().equals("national") ) {
+
+                AchatNationalYear += transactionYear.getMontant();
+
+            }
+            else{
+                for (Transaction transactionDay: transactionsOfTheDay
+                ) {
+                    DayAmount=transactionDay.getMontant();
+
+
+                }
+                YearAmount=transactionYear.getMontant();
+            }
+
+
+        }
 
 
         if (!compte.equals(null)){
 
-            boolean positiveSolde = limit.checkSolde(solde,TransactionMontant);
-            boolean positiveDaylimit = limit.checkDayLimit(TransactionMontant,type);
-//            boolean
+             positiveSolde = limit.checkSolde(solde,TransactionMontant);
+
+             if(compte.getType().equals("standard")){
+                 positiveDaylimit = limit.checkDayLimit(TransactionMontant,type,DayAmount);
+             }
+
+             positiveYearlimit = limit.checkYearLimit(TransactionMontant,type,YearAmount);
+
 
 //            if ( solde>=TransactionMontant )
 //            System.out.println(compte);
