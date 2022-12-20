@@ -44,10 +44,10 @@ public class BanqueCentraleApplication {
         return args -> {
 
 
-//            accountImplClient.addNewUser(new Client("otman@gmail.com", "123456", "WA123", "CASA", "12345", "hamza", "mb", "CLIENT"), Enum.TypeCompte.STANDARD.toString());
-//            accountImplClient.addNewUser(new Client("otman1@gmail.com", "123456", "WA1223", "CASA", "12345", "hamza", "mb", "CLIENT"), Enum.TypeCompte.STANDARD.toString());
-//            accountImplClient.addNewUser(new Client("otman2@gmail.com", "123456", "WA1223", "CASA", "12345", "hamza", "mb", "CLIENT"), Enum.TypeCompte.STANDARD.toString());
-//
+//                accountImplClient.addNewUser(new Client("otman@gmail.com", "123456", "WA123", "CASA", "12345", "hamza", "mb", "CLIENT"), Enum.TypeCompte.STANDARD.toString());
+//                accountImplClient.addNewUser(new Client("otman1@gmail.com", "123456", "WA1223", "CASA", "12345", "hamza", "mb", "CLIENT"), Enum.TypeCompte.STANDARD.toString());
+//                accountImplClient.addNewUser(new Client("otman2@gmail.com", "123456", "WA1223", "CASA", "12345", "hamza", "mb", "CLIENT"), Enum.TypeCompte.STANDARD.toString());
+
 //
 //            accountImplAdmin.addNewUser(new Agent("otman4@gmail.com", "123456", "WA1223", "CASA", "AGENT"));
 //            accountImplAdmin.addNewUser(new Agent("otman5@gmail.com", "123456", "WA1223", "CASA", "AGENT"));

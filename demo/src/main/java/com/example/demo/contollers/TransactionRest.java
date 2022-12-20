@@ -24,15 +24,20 @@ public class TransactionRest {
 
     @PostAuthorize("hasAuthority('CLIENT')")
     @PostMapping(path = "/achat")
-    public void achat(@RequestBody Transaction transaction1) {
+    public void achat(
+            @RequestParam double montant,
+            @RequestParam long idCompte,
+            @RequestParam String dotation
+    ) {
 
-//        Transaction transaction = new Transaction();
-//
-//        transaction.setMontant(transaction1.getMontant());
-//        transaction.setIdCompte(transaction1.getIdCompte());
-//        transaction.setType("Achat");
-        System.out.println(transaction1.getDotation());
-        transactionService.achat(transaction1);
+        Transaction transaction = new Transaction();
+
+        transaction.setMontant(montant);
+        transaction.setIdCompte(idCompte);
+        transaction.setDotation(dotation);
+        transaction.setType("Achat");
+
+        transactionService.achat(transaction);
 
     }
 
