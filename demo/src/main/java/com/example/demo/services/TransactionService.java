@@ -28,6 +28,15 @@ public class TransactionService {
 
     }
 
+
+    public void depot(Transaction transaction) {
+        Compte compte = compteRepository.findCompteById(transaction.getIdCompte());
+        compte.setSold(compte.getSold() + transaction.getMontant());
+        compteRepository.save(compte);
+        transactionRepository.save(transaction);
+
+    }
+
     public void achat(Transaction transaction) {
 
         Compte compte = compteRepository.findCompteById(transaction.getIdCompte());
@@ -62,46 +71,44 @@ public class TransactionService {
             }
         }
 
-        System.out.println("AchatInetnationalYear "+AchatInetnationalYear);
-        System.out.println("AchatNationalYear "+AchatNationalYear);
-        System.out.println("DayAmount "+DayAmount);
-        System.out.println("YearAmount "+YearAmount);
+        System.out.println("AchatInetnationalYear " + AchatInetnationalYear);
+        System.out.println("AchatNationalYear " + AchatNationalYear);
+        System.out.println("DayAmount " + DayAmount);
+        System.out.println("YearAmount " + YearAmount);
 
         if (!compte.equals(null)) {
-            System.out.println();
 
             positiveSolde = limit.checkSolde(solde, TransactionMontant);
 
             if (compte.getType().equals("standard")) {
 
                 double sumDay = TransactionMontant + DayAmount;
-                double sumYear = TransactionMontant+YearAmount;
+                double sumYear = TransactionMontant + YearAmount;
                 if (sumDay > 5000) {
                     positiveDaylimit = false;
                 }
-                if(sumYear>100000){
-                    positiveYearlimit= false;
+                if (sumYear > 100000) {
+                    positiveYearlimit = false;
                 }
-            }else {
-                if (transaction.getDotation().equals("national")){
-                   double sumNational = AchatNationalYear+transaction.getMontant();
-                   double sunInternational = AchatInetnationalYear+transaction.getMontant();
-                   if (sumNational>15000){
-                       positiveYearlimit=false;
-                   } else if (sunInternational>100000) {
-                       positiveYearlimit=false;
-                   }
+            } else {
+                if (transaction.getDotation().equals("national")) {
+                    double sumNational = AchatNationalYear + transaction.getMontant();
+                    double sunInternational = AchatInetnationalYear + transaction.getMontant();
+                    if (sumNational > 15000) {
+                        positiveYearlimit = false;
+                    } else if (sunInternational > 100000) {
+                        positiveYearlimit = false;
+                    }
                 }
             }
 
-            if (positiveSolde && positiveDaylimit && positiveYearlimit){
+            if (positiveSolde && positiveDaylimit && positiveYearlimit) {
                 System.out.println("confirmed achat");
                 transactionRepository.save(transaction);
-                compte.setSold(compte.getSold()-transaction.getMontant());
+                compte.setSold(compte.getSold() - transaction.getMontant());
                 compteRepository.save(compte);
 
-            }
-            else{
+            } else {
                 System.out.println("you already reach the limit");
             }
 

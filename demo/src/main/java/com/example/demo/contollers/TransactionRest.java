@@ -41,6 +41,20 @@ public class TransactionRest {
     }
 
     @PostAuthorize("hasAuthority('CLIENT')")
+    @PostMapping(path="/depot")
+    public void achat(
+            @RequestParam double montant,
+            @RequestParam long idCompte
+    ){
+        Transaction transaction = new Transaction();
+        transaction.setMontant(montant);
+        transaction.setType("depot");
+        transaction.setIdCompte(idCompte);
+        transactionService.depot(transaction);
+
+    }
+
+    @PostAuthorize("hasAuthority('CLIENT')")
     @PostMapping(path = "/virement")
     public void virement(@RequestBody ClientVirement clientVirement) {
 
