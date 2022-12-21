@@ -3,7 +3,7 @@ package com.example.demo.services;
 import com.example.demo.entities.Compte;
 import com.example.demo.entities.Transaction;
 import com.example.demo.entities.Virement;
-import com.example.demo.helpers.Enum;
+import com.example.demo.helpers.Info;
 import com.example.demo.repo.CompteRepository;
 import com.example.demo.repo.TransactionRepository;
 import com.example.demo.repo.VirementRepository;
@@ -46,8 +46,9 @@ public class CompteService {
         Compte destinataire = compteRepository.findCompteByRib(ribDestinataire);
 
         if ((emetteur.getSold() >= transaction.getMontant()) && (destinataire != null)) {
+            transaction.setType(Info.operation.VIREMENT.toString());
             transactionRepository.save(transaction);
-            Virement virement = new Virement(ribDestinataire, Enum.Etat.EN_COURS.toString());
+            Virement virement = new Virement(ribDestinataire, Info.Etat.EN_COURS.toString());
             virement.setTransactions(transaction);
             virementRepository.save(virement);
             compteRepository.updateSolde((emetteur.getSold() - transaction.getMontant()), transaction.getIdCompte());
@@ -61,7 +62,7 @@ public class CompteService {
         Virement currentVirement = virementRepository.findVirementById(id_virement);
         Transaction currentTransaction = currentVirement.getTransactions();
         Compte destinataire = compteRepository.findCompteByRib(currentVirement.getRibDestinataire());
-        virementRepository.validerVirement(Enum.Etat.VALIDE.toString(), id_virement);
+        virementRepository.validerVirement(Info.Etat.VALIDE.toString(), id_virement);
         compteRepository.updateSolde((destinataire.getSold() + currentTransaction.getMontant()), destinataire.getId());
         return "valide";
     }

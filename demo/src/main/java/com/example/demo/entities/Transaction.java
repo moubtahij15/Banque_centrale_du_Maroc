@@ -135,6 +135,10 @@ public class Transaction {
         this.dotation = dotation;
     }
 
+    public Transaction(long idCompte, double montant) {
+        this.idCompte = idCompte;
+        this.montant = montant;
+    }
 
     public Transaction() {
     }

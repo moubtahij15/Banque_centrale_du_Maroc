@@ -49,4 +49,11 @@ public class FactureInfo {
         this.numeroContart = numeroContart;
     }
 
+    public FactureInfo(Long type, Long numeroContart) {
+        this.type = type;
+        this.numeroContart = numeroContart;
+    }
+
+    public FactureInfo() {
+    }
 }
