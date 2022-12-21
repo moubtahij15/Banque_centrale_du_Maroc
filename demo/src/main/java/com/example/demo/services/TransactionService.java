@@ -7,9 +7,12 @@ import com.example.demo.helpers.Info;
 import com.example.demo.helpers.Limit;
 import com.example.demo.repo.CompteRepository;
 import com.example.demo.repo.TransactionRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Date;
+import java.util.Optional;
 
 @Service
 public class TransactionService {
@@ -23,6 +26,15 @@ public class TransactionService {
         this.compteRepository = compteRepository;
         this.limit = limit;
 
+
+    }
+
+
+    public void depot(Transaction transaction) {
+        Compte compte = compteRepository.findCompteById(transaction.getIdCompte());
+        compte.setSold(compte.getSold() + transaction.getMontant());
+        compteRepository.save(compte);
+        transactionRepository.save(transaction);
 
     }
 
@@ -68,7 +80,6 @@ public class TransactionService {
         System.out.println("YearAmount " + YearAmount);
 
         if (!compte.equals(null)) {
-            System.out.println();
 
             positiveSolde = limit.checkSolde(solde, TransactionMontant);
 
@@ -79,7 +90,7 @@ public class TransactionService {
                 if (sumDay > 5000) {
                     positiveDaylimit = false;
                 }
-                if (sumYear > 15000) {
+                if (sumYear > 100000) {
                     positiveYearlimit = false;
                 }
             } else {
