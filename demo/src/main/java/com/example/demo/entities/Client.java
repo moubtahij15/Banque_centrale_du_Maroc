@@ -1,5 +1,6 @@
 package com.example.demo.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
@@ -21,7 +22,9 @@ public class Client {
     private String prenom;
     private String role;
 
+    @JsonIgnore
     private Collection<Compte> comptesById = new ArrayList<>();
+    @JsonIgnore
     private Collection<Request> requestById = new ArrayList<>();
 
     public Client() {

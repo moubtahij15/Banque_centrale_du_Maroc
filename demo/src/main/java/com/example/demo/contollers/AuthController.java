@@ -3,6 +3,7 @@ package com.example.demo.contollers;
 
 import com.example.demo.DTO.TokenRequest;
 import com.example.demo.helpers.EmailDetails;
+import com.example.demo.helpers.Info;
 import com.example.demo.repo.AgentRepository;
 import com.example.demo.repo.ClientRepository;
 import com.example.demo.DTO.Logged;
@@ -82,7 +83,7 @@ public class AuthController {
 
             if (tokenRequest.getRole().equals("CLIENT")) {
                 user.setClient(clientRepository.findByEmail(authentication.getName()));
-                if (user.getClient().getEtat().equals("NON_VALIDER")) {
+                if (user.getClient().getEtat().equals(Info.Etat.EN_COURS.toString())) {
                     return new ResponseEntity<>(Map.of("statut", "error",
                             "type", "validation",
                             "id", user.getClient().getId()
@@ -96,7 +97,7 @@ public class AuthController {
             subject = authentication.getName();
             scope = authentication.getAuthorities()
                     .stream().map(aut -> aut.getAuthority())
-                    .collect(Collectors.joining(" "));
+                    .collect(Collectors.joining(""));
 
 
         } else if (tokenRequest.getGrantType().equals("refreshToken")) {
