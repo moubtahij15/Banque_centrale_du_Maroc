@@ -62,7 +62,7 @@ public class CompteService {
         Virement currentVirement = virementRepository.findVirementById(id_virement);
         Transaction currentTransaction = currentVirement.getTransactions();
         Compte destinataire = compteRepository.findCompteByRib(currentVirement.getRibDestinataire());
-        virementRepository.validerVirement(Info.Etat.VALIDE.toString(), id_virement);
+        virementRepository.validerVirement(Info.Etat.VALIDER.toString(), id_virement);
         compteRepository.updateSolde((destinataire.getSold() + currentTransaction.getMontant()), destinataire.getId());
         return "valide";
     }

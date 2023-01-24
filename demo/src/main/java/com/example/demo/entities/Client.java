@@ -1,8 +1,8 @@
 package com.example.demo.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
 
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -20,6 +20,7 @@ public class Client {
     private String nom;
     private String prenom;
     private String role;
+
     private Collection<Compte> comptesById = new ArrayList<>();
     private Collection<Request> requestById = new ArrayList<>();
 
