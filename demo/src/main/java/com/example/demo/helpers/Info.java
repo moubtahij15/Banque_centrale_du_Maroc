@@ -1,7 +1,7 @@
 package com.example.demo.helpers;
 
 public interface Info {
-    enum Etat {VALIDE, NON_VALIDE, EN_COURS}
+    enum Etat {VALIDER, NON_VALIDER, EN_COURS}
 
     enum TypeCompte {STANDARD, PROFESSIONNEL}
 

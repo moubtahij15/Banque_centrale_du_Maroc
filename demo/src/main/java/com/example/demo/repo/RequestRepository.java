@@ -20,6 +20,5 @@ public interface RequestRepository
     @Query("select request from Request request where request.client_id=:id")
     Request findRequestByClient_id(@Param("id") long id);
 
-    Request findRequestById(Long id);
 
 }

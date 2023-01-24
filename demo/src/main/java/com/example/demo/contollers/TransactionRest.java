@@ -2,8 +2,8 @@ package com.example.demo.contollers;
 
 
 import com.example.demo.entities.Transaction;
-import com.example.demo.helpers.ClientFacture;
-import com.example.demo.helpers.ClientVirement;
+import com.example.demo.DTO.ClientFacture;
+import com.example.demo.DTO.ClientVirement;
 import com.example.demo.helpers.Info;
 import com.example.demo.repo.RequestRepository;
 import com.example.demo.services.CompteService;

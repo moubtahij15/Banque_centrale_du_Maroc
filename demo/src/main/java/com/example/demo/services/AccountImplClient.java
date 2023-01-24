@@ -2,6 +2,7 @@ package com.example.demo.services;
 
 import com.example.demo.entities.Client;
 import com.example.demo.entities.Request;
+import com.example.demo.helpers.EmailDetails;
 import com.example.demo.helpers.Info;
 import com.example.demo.repo.ClientRepository;
 import com.example.demo.repo.RequestRepository;
@@ -18,13 +19,17 @@ public class AccountImplClient implements AccountService<Client> {
     final RequestRepository requestRepository;
     final PasswordEncoder passwordEncoder;
     final CompteService compteService;
+    final EmailServiceImpl emailService;
+    final EmailDetails emailDetails;
 
 
-    public AccountImplClient(ClientRepository clientRepository, RequestRepository requestRepository, PasswordEncoder passwordEncoder, CompteService compteService) {
+    public AccountImplClient(ClientRepository clientRepository, RequestRepository requestRepository, PasswordEncoder passwordEncoder, CompteService compteService, EmailServiceImpl emailService, EmailDetails emailDetails) {
         this.clientRepository = clientRepository;
         this.requestRepository = requestRepository;
         this.passwordEncoder = passwordEncoder;
         this.compteService = compteService;
+        this.emailService = emailService;
+        this.emailDetails = emailDetails;
     }
 
     @Override
@@ -55,11 +60,15 @@ public class AccountImplClient implements AccountService<Client> {
 
     public Client validerClient(long id) {
         Request request = requestRepository.findRequestByClient_id(id);
-        requestRepository.ValiderRequest(Info.Etat.VALIDE.toString(), request.getId());
+        requestRepository.ValiderRequest(Info.Etat.VALIDER.toString(), request.getId());
         compteService.createCompte(id, request.getType());
         clientRepository.valider(id);
         System.out.println(id);
         return clientRepository.findClientById(2);
+    }
+
+    public void verifyClient(String email) {
+        clientRepository.validerClient(email);
     }
 
 }

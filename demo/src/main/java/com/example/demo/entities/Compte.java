@@ -2,7 +2,7 @@ package com.example.demo.entities;
 
 import org.hibernate.annotations.ColumnDefault;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.Collection;
 
 @Entity
