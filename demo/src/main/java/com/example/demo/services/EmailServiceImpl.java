@@ -19,8 +19,6 @@ import org.springframework.stereotype.Service;
 
 // Annotation
 @Service
-// Class
-// Implementing EmailService interface
 public class EmailServiceImpl {
 
     final
