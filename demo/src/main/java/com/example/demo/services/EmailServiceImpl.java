@@ -11,10 +11,8 @@ import java.io.File;
 import com.example.demo.helpers.EmailDetails;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -25,11 +23,15 @@ import org.springframework.stereotype.Service;
 // Implementing EmailService interface
 public class EmailServiceImpl {
 
-    @Autowired
+    final
     private JavaMailSender javaMailSender;
 
     @Value("${spring.mail.username}")
     private String sender;
+
+    public EmailServiceImpl(JavaMailSender javaMailSender) {
+        this.javaMailSender = javaMailSender;
+    }
 
     // Method 1
     // To send a simple email
@@ -46,7 +48,7 @@ public class EmailServiceImpl {
                     = new MimeMessageHelper(mimeMessage, true);
             mimeMessageHelper.setFrom(sender);
             mimeMessageHelper.setTo(details.getRecipient());
-            mimeMessageHelper.setText(details.getMsgBody(),true);
+            mimeMessageHelper.setText(details.getMsgBody(), true);
             mimeMessageHelper.setSubject(
                     details.getSubject());
 
@@ -82,7 +84,7 @@ public class EmailServiceImpl {
                     = new MimeMessageHelper(mimeMessage, true);
             mimeMessageHelper.setFrom(sender);
             mimeMessageHelper.setTo(details.getRecipient());
-            mimeMessageHelper.setText(details.getMsgBody(),true);
+            mimeMessageHelper.setText(details.getMsgBody(), true);
             mimeMessageHelper.setSubject(
                     details.getSubject());
 
