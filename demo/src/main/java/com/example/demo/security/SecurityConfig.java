@@ -61,7 +61,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .csrf(csrf -> csrf.disable())
-                .authorizeRequests(auth -> auth.requestMatchers("/token/**", "/inscription/**", "/verify/**", "/download/**", "/resend/**", "/offer/valider","/profiles/**","/searchOffre","/register","/client/register","/client/verify/**").permitAll())
+                .authorizeRequests(auth -> auth.requestMatchers("/token/**", "/inscription/**", "/verify/**", "/download/**", "/resend/**", "/offer/valider","/profiles/**","/searchOffre","/register","/client/register","/client/verify/**","/aa").permitAll())
 //                .authorizeHttpRequests(aut -> aut.requestMatchers("/searchOffre/**").hasRole("AGENT"))
                 .authorizeRequests(auth -> auth.anyRequest().authenticated())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

@@ -144,4 +144,10 @@ public class AuthController {
         return new ResponseEntity<>("Endpoint accessed", HttpStatus.OK);
     }
 
+    @GetMapping(path = "/aa")
+    public ResponseEntity<String> s() {
+
+        return new ResponseEntity<>("Endpoint accessed", HttpStatus.OK);
+    }
+
 }
