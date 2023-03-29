@@ -9,8 +9,12 @@ import com.example.demo.repo.RequestRepository;
 import com.example.demo.services.CompteService;
 import com.example.demo.services.FactureService;
 import com.example.demo.services.TransactionService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping(path = "api/client/")
@@ -51,11 +55,11 @@ public class TransactionRest {
     }
 
     @PostAuthorize("hasAuthority('CLIENT')")
-    @PostMapping(path="/depot")
+    @PostMapping(path = "/depot")
     public void achat(
             @RequestParam double montant,
             @RequestParam long idCompte
-    ){
+    ) {
         Transaction transaction = new Transaction();
         transaction.setMontant(montant);
         transaction.setType("depot");
@@ -64,32 +68,43 @@ public class TransactionRest {
 
     }
 
-    @PostAuthorize("hasAuthority('CLIENT')")
+    //    @PostAuthorize("hasAuthority('CLIENT')")
     @PostMapping(path = "/virement")
-    public String virement(@RequestBody ClientVirement clientVirement) {
-        return compteService.verser(clientVirement.getTransaction(), clientVirement.getRibDestinataire());
+    public ResponseEntity<Object> virement(@RequestBody ClientVirement clientVirement) {
+//        return compteService.verser(clientVirement.getTransaction(), clientVirement.getRibDestinataire());
+        if (compteService.validerVirement(Long.valueOf(compteService.verser(clientVirement.getTransaction(), clientVirement.getRibDestinataire())))) {
+            return new ResponseEntity<>(Map.of("status", "ok"), HttpStatus.CREATED);
+
+        }
+        return new ResponseEntity<>(Map.of("status", "not ok"), HttpStatus.FORBIDDEN);
+
 
     }
 
-    @PostAuthorize("hasAuthority('CLIENT')")
+    //    @PostAuthorize("hasAuthority('CLIENT')")
     @PostMapping(path = "/virement/verifier")
-    public String virement(@RequestParam Long id_virement) {
+    public boolean virement(@RequestParam Long id_virement) {
         return compteService.validerVirement(id_virement);
 
     }
 
-    @PostAuthorize("hasAuthority('CLIENT')")
+    //    @PostAuthorize("hasAuthority('CLIENT')")
     @PostMapping(path = "/retrait")
-    public void retrait(@RequestBody Transaction transaction) {
+    public ResponseEntity<Object> retrait(@RequestBody Transaction transaction) {
+
         transaction.setType(Info.operation.RETRAIT.toString());
         transaction.setDotation(Info.Dotation.LOCAL.toString());
-
+        System.out.println(transaction.getIdCompte());
+        System.out.println(transaction.getMontant());
         if (transactionService.checkLimite(transaction)) {
-            System.out.println("Bien Retrait");
+            return new ResponseEntity<>(Map.of("status", "ok"), HttpStatus.CREATED);
         } else {
+
             System.out.println("non Passer");
+            return new ResponseEntity<>(Map.of("status", " not ok"), HttpStatus.CREATED);
 
         }
+
 
     }
 

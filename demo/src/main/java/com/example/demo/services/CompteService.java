@@ -52,19 +52,20 @@ public class CompteService {
             virement.setTransactions(transaction);
             virementRepository.save(virement);
             compteRepository.updateSolde((emetteur.getSold() - transaction.getMontant()), transaction.getIdCompte());
-            return "Bien Verser en attente la verification";
+//            return "Bien Verser en attente la verification";
+            return String.valueOf(virement.getId());
         }
         return "Votre Solde o rib incorrect";
 
     }
 
-    public String validerVirement(Long id_virement) {
+    public boolean validerVirement(Long id_virement) {
         Virement currentVirement = virementRepository.findVirementById(id_virement);
         Transaction currentTransaction = currentVirement.getTransactions();
         Compte destinataire = compteRepository.findCompteByRib(currentVirement.getRibDestinataire());
         virementRepository.validerVirement(Info.Etat.VALIDER.toString(), id_virement);
         compteRepository.updateSolde((destinataire.getSold() + currentTransaction.getMontant()), destinataire.getId());
-        return "valide";
+        return true;
     }
 
 
